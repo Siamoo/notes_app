@@ -1,69 +1,84 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
+import 'package:notes_app/views/edit_notes_view.dart';
 
 class NotesItem extends StatelessWidget {
   const NotesItem({
-    super.key,
+    super.key,  required this.note,
   });
+
+
+  final NoteModel note ;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: Color.fromARGB(255, 235, 168, 93),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                'Flutter tips',
-                style: TextStyle(color: Colors.black, fontSize: 24),
-              ),
-              Spacer(),
-              IconButton(
-               
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.black,
-                    size: 30,
-                  ))
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Row(
+    return GestureDetector(
+      onTap: () {
+         Navigator.push(context,MaterialPageRoute(builder: (context) =>  EditNotesView(note: note,)));
+      },
+      child: Container(
+        padding:const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          color:  Color(note.color),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Expanded(
-                  child: Text(
-                    'Walid siam i love to make that for funy ',
-                    style: TextStyle(color: Colors.black.withOpacity(.5),fontSize: 17),
-                  ),
+                Text(
+                 note.titel ,
+                  style:  TextStyle(color: Colors.white.withOpacity(.9), fontSize: 24,fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
-                  width: 85,
-                )
+                const Spacer(),
+                IconButton(
+                 
+                    onPressed: () {
+                      note.delete();
+                      BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+                    },
+                    icon:  Icon(
+                      Icons.delete,
+                      color: Colors.white.withOpacity(.9),
+                      size: 40,
+                    ))
               ],
             ),
-          ),
-    
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Text(
-                  'oct 15.2002',
-                  style: TextStyle(color: Colors.black.withOpacity(.5)),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                     note.subTitel,
+                      style: TextStyle(color: Colors.white.withOpacity(.6),fontSize: 17),
+                    ),
+                  ),
+                 const SizedBox(
+                    width: 85,
+                  )
+                ],
               ),
-            ],
-          ),
-        ],
+            ),
+      
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(
+                   note.date,
+                    style: TextStyle(color: Colors.white.withOpacity(.6)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
