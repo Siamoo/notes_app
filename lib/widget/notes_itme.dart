@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
@@ -7,23 +6,28 @@ import 'package:notes_app/views/edit_notes_view.dart';
 
 class NotesItem extends StatelessWidget {
   const NotesItem({
-    super.key,  required this.note,
+    super.key,
+    required this.note,
   });
 
-
-  final NoteModel note ;
+  final NoteModel note;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-         Navigator.push(context,MaterialPageRoute(builder: (context) =>  EditNotesView(note: note,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditNotesView(
+                      note: note,
+                    )));
       },
       child: Container(
-        padding:const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color:  Color(note.color),
+          color: Color(note.color),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,17 +35,19 @@ class NotesItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                 note.titel ,
-                  style:  TextStyle(color: Colors.white.withOpacity(.9), fontSize: 24,fontWeight: FontWeight.bold),
+                  note.titel,
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(.9),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 IconButton(
-                 
                     onPressed: () {
                       note.delete();
                       BlocProvider.of<NotesCubit>(context).fetchAllNotes();
                     },
-                    icon:  Icon(
+                    icon: Icon(
                       Icons.delete,
                       color: Colors.white.withOpacity(.9),
                       size: 40,
@@ -54,24 +60,24 @@ class NotesItem extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                     note.subTitel,
-                      style: TextStyle(color: Colors.white.withOpacity(.6),fontSize: 17),
+                      note.subTitel,
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(.6), fontSize: 17),
                     ),
                   ),
-                 const SizedBox(
+                  const SizedBox(
                     width: 85,
                   )
                 ],
               ),
             ),
-      
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: Text(
-                   note.date,
+                    note.date,
                     style: TextStyle(color: Colors.white.withOpacity(.6)),
                   ),
                 ),
@@ -83,4 +89,3 @@ class NotesItem extends StatelessWidget {
     );
   }
 }
-
