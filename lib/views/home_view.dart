@@ -10,13 +10,12 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
             isScrollControlled: true,
             context: context,
-            builder: ( context) {
+            builder: (context) {
               return const AddNote();
             },
           );
